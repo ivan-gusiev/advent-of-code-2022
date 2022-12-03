@@ -1,6 +1,7 @@
 import os.path
 from io import TextIOWrapper
 from pathlib import Path
+from typing import TypeVar
 
 def split_by_newline(lines: list[str]) -> list[list[str]]:
     result: list[list[str]] = []
@@ -14,7 +15,14 @@ def split_by_newline(lines: list[str]) -> list[list[str]]:
             current.append(line)
     if current != []:
         result.append(current)
-    return result        
+    return result
+
+T = TypeVar('T')
+def split_to_chunks(lines: list[T], n) -> list[list[T]]:
+    result: list[list[T]] = []
+    for i in range(0, len(lines), n):
+        result.append(lines[i:i + n])
+    return result
 
 class Input:
     challenge_path: str
