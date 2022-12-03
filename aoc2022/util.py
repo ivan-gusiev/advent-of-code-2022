@@ -3,6 +3,9 @@ from io import TextIOWrapper
 from pathlib import Path
 from typing import TypeVar
 
+def clean_lines(f: TextIOWrapper) -> list[str]:
+    return list(map(str.rstrip, f.readlines()))
+
 def split_by_newline(lines: list[str]) -> list[list[str]]:
     result: list[list[str]] = []
     current: list[str] = []
