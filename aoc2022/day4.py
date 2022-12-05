@@ -1,6 +1,7 @@
 from aoc2022.util import Input, clean_lines
 from io import TextIOWrapper
 from typing import Tuple
+from PIL import Image
 
 def main():
     input = Input(__file__)
@@ -53,6 +54,7 @@ def solve(f: TextIOWrapper):
     lines = clean_lines(f)
     solve_p1(lines)
     solve_p2(lines)
+    solve_image(lines)
 
 def solve_p1(lines: list[str]):
     result = 0
@@ -69,6 +71,19 @@ def solve_p2(lines: list[str]):
         if Range.overlaps(l, r):
             result += 1
     print("p1", result)
+
+def solve_image(lines: list[str]):
+    ranges = list(map(line_to_ranges, lines))
+    width = 10 if len(ranges) < 10 else 100
+    img = Image.new( 'RGB', (width, len(lines)), "black") # Create a new black image
+    pixels = img.load() # Create the pixel map
+    for y, therange in enumerate(ranges):
+        l, r = therange
+        for x in range(0, width):
+            red = int(r.contains(x)) * 255
+            green = int(l.contains(x)) * 255
+            pixels[x, y] = (red, green, 100)
+    img.show()
 
 if __name__ == '__main__':
     main()

@@ -1,1 +1,2 @@
+Pillow==9.3.0
 ## The following requirements were added by pip freeze:
