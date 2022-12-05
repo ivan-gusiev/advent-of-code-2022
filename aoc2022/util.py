@@ -30,6 +30,7 @@ def split_to_chunks(lines: list[T], n) -> list[list[T]]:
 class Input:
     challenge_path: str
     test_path: str
+    day: str
 
     def __init__(self, current_file: str):
         """
@@ -41,6 +42,7 @@ class Input:
         challenge_path = str(Path(filename).with_suffix(".txt"))
         self.test_path = challenge_path.replace(".txt", "-test.txt")
         self.challenge_path = challenge_path
+        self.day = os.path.basename(current_file).replace(".py", "")
 
     def challenge_path(self) -> str:
         return self.challenge_path
