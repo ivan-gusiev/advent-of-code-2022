@@ -1,3 +1,4 @@
+from aoc2022.advent import set_day_from_filename
 from aoc2022.util import Input, split_by_newline
 from io import TextIOWrapper
 from PIL import Image, ImageDraw, ImageFont
@@ -18,7 +19,8 @@ IMG_FONT = ImageFont.truetype("./res/font.ttf")
 
 def main():
     global image_day
-    input = Input(__file__)
+    set_day_from_filename(__file__)
+    input = Input.for_advent()
     image_day = input.day
     for file in [input.test_path, input.challenge_path]:
         print("input:", file)

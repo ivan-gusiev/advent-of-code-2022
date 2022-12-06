@@ -1,10 +1,12 @@
+from aoc2022.advent import set_day_from_filename
 from aoc2022.util import Input, clean_lines
 from io import TextIOWrapper
 from typing import Tuple
 from PIL import Image
 
 def main():
-    input = Input(__file__)
+    set_day_from_filename(__file__)
+    input = Input.for_advent()
     for file in [input.test_path, input.challenge_path]:
         print("input:", file)
         with open(file, mode='r') as f:

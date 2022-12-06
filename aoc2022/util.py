@@ -1,4 +1,5 @@
 import os.path
+from aoc2022.advent import current_day, day_from_filename
 from io import TextIOWrapper
 from pathlib import Path
 from typing import TypeVar
@@ -43,6 +44,24 @@ class Input:
         self.test_path = challenge_path.replace(".txt", "-test.txt")
         self.challenge_path = challenge_path
         self.day = os.path.basename(current_file).replace(".py", "")
+
+    def __init__(self, day_num: int):
+        """
+        Send a message to a recipient.
+
+        :param str current_file: always put __file__ there
+        """
+        self.day = f"day{day_num}"
+        self.test_path = f"input/day{day_num}-test.txt"
+        self.challenge_path = f"input/day{day_num}.txt"
+
+    @classmethod
+    def for_advent(cls) -> 'Input':
+        return cls(current_day())
+    
+    @classmethod
+    def from_filename(cls, filename: str) -> 'Input':
+        return cls(day_from_filename(filename))
 
     def challenge_path(self) -> str:
         return self.challenge_path
