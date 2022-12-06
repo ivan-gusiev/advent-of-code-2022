@@ -14,10 +14,10 @@ def solve(f: TextIOWrapper):
     solve_p2(lines)
 
 def solve_p1(lines: list[str]):
-    print("p1", sum(map(int, lines)))
+    print("p1", len(lines))
 
 def solve_p2(lines: list[str]):
-    print("p2", max(map(int, lines)))
+    print("p2", sum(map(len, lines)))
 
 if __name__ == '__main__':
     main()
