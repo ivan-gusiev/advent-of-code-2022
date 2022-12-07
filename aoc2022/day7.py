@@ -28,11 +28,11 @@ class Folder:
     parent: Optional['Folder']
     files: Dict[str, File]
     folders: Dict[str, 'Folder']
-    size_estimate: Optional[int]
+    size_estimate: int
 
     @classmethod
     def init(cls, name: str, parent: Optional['Folder']) -> 'Folder':
-        return cls(name, parent, {}, {}, None)
+        return cls(name, parent, {}, {}, -1)
     
     @classmethod
     def root(cls) -> 'Folder':
@@ -57,7 +57,7 @@ def solve_p2(lines: list[str]):
     root = replay_command_lines(lines)
     total_size = 70_000_000
     needed_size = 30_000_000
-    used_size = root.size_estimate or 0
+    used_size = root.size_estimate
     target_size = used_size + needed_size - total_size
     dirs = [dir for dir in all_dirs(root)]
     dirs.sort(key=lambda dir: dir.size_estimate)
@@ -72,7 +72,7 @@ def parse_command(line: str) -> Optional[Command]:
         return None
 
     parts = line.split(' ')[1:]
-    return Ls if parts[0] == "ls" else Cd(parts[1])
+    return Ls() if parts[0] == "ls" else Cd(parts[1])
 
 def update_dir(cd: Folder, line: str):
     size_spec, name = line.split(' ')
@@ -104,7 +104,7 @@ def estimate_size(folder: Folder):
         estimate_size(child)
     
     size_files = sum([file.size for file in folder.files.values()]) 
-    size_children = sum([child.size_estimate or 0 for child in folder.folders.values()])
+    size_children = sum([child.size_estimate for child in folder.folders.values()])
     folder.size_estimate = size_files + size_children
 
 def all_dirs(root: Folder) -> list[Folder]:
@@ -113,7 +113,7 @@ def all_dirs(root: Folder) -> list[Folder]:
         for child in cd.folders.values():
             all_dirs_impl(child, lst)
             
-    result = []
+    result: list[Folder] = []
     all_dirs_impl(root, result)
     return result
 

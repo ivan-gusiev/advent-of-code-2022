@@ -31,7 +31,7 @@ def common_item(lhs: str, rhs: str) -> str:
     return common_item_of_list([lhs, rhs])
 
 def common_item_of_list(lst: list[str]) -> str:
-    sets = map(set, lst)
+    sets = [set(s) for s in lst]
     intersection = set.intersection(*sets)
     return list(intersection)[0]
 

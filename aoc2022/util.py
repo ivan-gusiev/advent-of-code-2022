@@ -33,18 +33,6 @@ class Input:
     test_path: str
     day: str
 
-    def __init__(self, current_file: str):
-        """
-        Send a message to a recipient.
-
-        :param str current_file: always put __file__ there
-        """
-        filename = f"input/{os.path.basename(current_file)}"
-        challenge_path = str(Path(filename).with_suffix(".txt"))
-        self.test_path = challenge_path.replace(".txt", "-test.txt")
-        self.challenge_path = challenge_path
-        self.day = os.path.basename(current_file).replace(".py", "")
-
     def __init__(self, day_num: int):
         """
         Send a message to a recipient.
@@ -62,9 +50,3 @@ class Input:
     @classmethod
     def from_filename(cls, filename: str) -> 'Input':
         return cls(day_from_filename(filename))
-
-    def challenge_path(self) -> str:
-        return self.challenge_path
-
-    def test_path(self) -> str:
-        return self.test_path

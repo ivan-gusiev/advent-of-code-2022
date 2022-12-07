@@ -30,7 +30,7 @@ def initialize_gif(width: int, height: int):
 
     current_builder = None
     if not is_drawing():
-        print("[VIS] Won't paint this time. Set the --images flag to paint the gif.")
+        print("[VIS] Won't paint this time. Set the --paint flag to paint the gif.")
         return
     current_builder = GifBuilder(
         id=increment_gif_counter(), 

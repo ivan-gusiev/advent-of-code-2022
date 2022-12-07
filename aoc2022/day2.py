@@ -39,7 +39,7 @@ fights: Dict[str, Dict[str, int]] = {
     },
 }
 
-strat_to_shape: Dict[str, Dict[str, int]] = {
+strat_to_shape: Dict[str, Dict[str, str]] = {
     'A': {
          'X': 'Z',
          'Y': 'X',
@@ -60,8 +60,8 @@ strat_to_shape: Dict[str, Dict[str, int]] = {
 def calc_score(enemy: str, you: str) -> int:
     return letter_scores[you] + fights[enemy][you]
 
-def decode(line: str) -> Tuple[str, str]:
-    return map(str.rstrip, line.split(' '))
+def decode(line: str) -> Tuple[str, ...]:
+    return tuple(map(str.rstrip, line.split(' ')))
 
 def solve(f: TextIOWrapper):
     lines = f.readlines()

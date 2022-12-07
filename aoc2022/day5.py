@@ -3,7 +3,7 @@ from aoc2022.gif import initialize_gif, request_frame, save_gif, GIF_FONT
 from aoc2022.util import Input, split_by_newline
 from io import TextIOWrapper
 from PIL import ImageDraw
-import os
+from typing import Any
 
 #sizes
 BOX_WIDTH = 10
@@ -63,7 +63,7 @@ def solve_p2(lines: list[str]):
 
     print("p2", result)
 
-def initialize_stacks(first_line: str) -> list[list[str]]:
+def initialize_stacks(first_line: str) -> list[list[Any]]:
     col_width = len(first_line)
     stack_count = int(col_width / 4)
     return list(map(lambda _: [], range(0, stack_count)))
@@ -79,14 +79,14 @@ def load_stacks(data: list[str], stacks: list[list[str]]):
             if letter and letter != ' ':
                 stack.append(letter)
 
-def initialize_images(stacks: list[list[int]]):
+def initialize_images(stacks: list[list[Any]]):
     columns = len(stacks)
     rows = max(map(len, stacks)) * 5  # 5 times max size for safety (not enough tho)
     image_width = BORDER + columns * (BOX_WIDTH + BORDER)
     image_height = (rows + 2) * (BOX_HEIGHT + BORDER)
     initialize_gif(image_width, image_height)
 
-def draw_stacks(stacks: list[list[int]], highlights = None):
+def draw_stacks(stacks: list[list[str]], highlights = None):
     frame_info = request_frame()
 
     if not frame_info:
@@ -95,7 +95,7 @@ def draw_stacks(stacks: list[list[int]], highlights = None):
     img = frame_info.image
     img_w, img_h = img.size
     draw = ImageDraw.Draw(img)
-    draw.rectangle([(0, 0), (img_w, img_h)], BACKGROUND)
+    draw.rectangle(((0, 0), (img_w, img_h)), BACKGROUND)
 
     if highlights == None:
         highlights = set()
@@ -107,7 +107,7 @@ def draw_stacks(stacks: list[list[int]], highlights = None):
             x1 = x0 + BOX_WIDTH
             y1 = y0 + BOX_HEIGHT
             color = HIGHLIGHT if (col, row) in highlights else MAIN_FILL
-            draw.rectangle([(x0, y0), (x1, y1)], color)
+            draw.rectangle(((x0, y0), (x1, y1)), color)
             draw.text(
                 (x0 + ADJUST_X, y0 + ADJUST_Y), 
                 letter, 

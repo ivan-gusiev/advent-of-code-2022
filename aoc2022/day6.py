@@ -81,7 +81,7 @@ def draw_state(text: str, scan_range: Set[int]):
     img = frame_info.image
     img_w, img_h = img.size
     draw = ImageDraw.Draw(img)
-    draw.rectangle([(0, 0), (img_w, img_h)], BACKGROUND)
+    draw.rectangle(((0, 0), (img_w, img_h)), BACKGROUND)
 
     letters = list(map(lambda i: text[i], scan_range))
     dupes = set()

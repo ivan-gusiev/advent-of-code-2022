@@ -1,4 +1,5 @@
 from aoc2022.advent import set_day_from_filename
+from aoc2022.gif import is_drawing
 from aoc2022.util import Input, clean_lines
 from io import TextIOWrapper
 from typing import Tuple
@@ -56,7 +57,8 @@ def solve(f: TextIOWrapper):
     lines = clean_lines(f)
     solve_p1(lines)
     solve_p2(lines)
-    solve_image(lines)
+    if is_drawing():
+        solve_image(lines)
 
 def solve_p1(lines: list[str]):
     result = 0
@@ -77,8 +79,8 @@ def solve_p2(lines: list[str]):
 def solve_image(lines: list[str]):
     ranges = list(map(line_to_ranges, lines))
     width = 10 if len(ranges) < 10 else 100
-    img = Image.new( 'RGB', (width, len(lines)), "black") # Create a new black image
-    pixels = img.load() # Create the pixel map
+    img = Image.new( 'RGB', (width, len(lines)), "black")
+    pixels = img.load() # type: ignore
     for y, therange in enumerate(ranges):
         l, r = therange
         for x in range(0, width):
