@@ -1,7 +1,7 @@
-set positional-arguments
+set positional-arguments := true
 
 default:
-  @just --list
+    @just --list
 
 # initializes Python environment
 pip-init:
@@ -15,7 +15,7 @@ pip-upgrade:
 
 # runs a selected day EXAMPLE just run day 5 --paint
 run day x *args='':
-    python -m aoc2022.day{{x}} $@
+    python -m aoc2022.day{{ x }} $@
 
 # runs all days
 run-all *args='':
@@ -23,4 +23,4 @@ run-all *args='':
 
 # sets up boilerplate for new day EXAMPLE just new day 7
 new day x:
-    sh ./day.sh day{{x}}
+    sh ./day.sh day{{ x }}
