@@ -1,8 +1,6 @@
-import os.path
 from aoc2022.advent import current_day, day_from_filename
 from io import TextIOWrapper
-from pathlib import Path
-from typing import TypeVar
+from typing import Optional, TypeVar
 
 def clean_lines(f: TextIOWrapper) -> list[str]:
     return list(map(str.rstrip, f.readlines()))
@@ -50,3 +48,38 @@ class Input:
     @classmethod
     def from_filename(cls, filename: str) -> 'Input':
         return cls(day_from_filename(filename))
+
+class Output:
+    _unique_counter: int = 0
+
+    name: str
+    subdir: str
+    extension: Optional[str]
+
+    def __init__(self, name: str, subdir: str, extension: Optional[str] = None):
+        self.name = name
+        self.subdir = subdir
+        self.extension = extension
+
+    def request_path(self, extension: Optional[str] = None) -> str:
+        import os
+
+        Output._unique_counter += 1
+        extension = self.extension or extension or "txt"
+        path = f"./output/{self.subdir}/{Output._unique_counter}_{self.name}.{extension}"
+
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        if os.path.exists(path):
+            print(f'[OUT] Deleting already existing {path}')
+            os.remove(path)
+
+        return path
+
+    @classmethod
+    def create(cls, subdir: Optional[str] = None, name: Optional[str] = None, extension: Optional[str] = None) -> 'Output':
+        if not name:
+            name = "untitled"
+        if not subdir:
+            subdir = f"day{current_day()}"
+
+        return Output(name, subdir, extension)

@@ -1,6 +1,6 @@
 from aoc2022.advent import set_day_from_filename
 from aoc2022.gif import initialize_gif, request_frame, save_gif, GIF_FONT
-from aoc2022.util import Input, split_by_newline
+from aoc2022.util import Input, Output, split_by_newline
 from io import TextIOWrapper
 from PIL import ImageDraw
 from typing import Any
@@ -46,7 +46,7 @@ def solve_p1(lines: list[str]):
     for stack in stacks:
         result += stack[-1]
 
-    save_gif("p1", loop=0, duration=25)
+    save_gif(Output.create(name="p1"), loop=0, duration=25)
     print("p1", result)
 
 def solve_p2(lines: list[str]):

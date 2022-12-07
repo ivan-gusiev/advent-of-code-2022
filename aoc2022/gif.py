@@ -1,4 +1,5 @@
 from aoc2022.advent import current_day
+from aoc2022.util import Output
 from dataclasses import dataclass
 from PIL import Image, ImageFont
 from typing import Optional, Tuple
@@ -50,7 +51,7 @@ def request_frame() -> Optional[FrameInfo]:
         print(f"[VIS] Painted {frame_count} frames already.")
     return FrameInfo(frame_count, img)
 
-def save_gif(name: Optional[str], subdir: Optional[str] = None, cleanup: bool = True, **kwargs):
+def save_gif(output: Output, cleanup: bool = True, **kwargs):
     global current_builder
     if not current_builder:
         return
@@ -59,23 +60,14 @@ def save_gif(name: Optional[str], subdir: Optional[str] = None, cleanup: bool = 
         print("[VIS] Skipping an attempt to save a gif with zero frames.")
         return
     
-    if not name:
-        name = "untitled"
-    
-    if not subdir:
-        subdir = f"day{current_day()}"
-    
-    path = f"./output/{subdir}/{current_builder.id}_{name}.gif"
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    if os.path.exists(path):
-        print(f'[VIS] Deleting already existing {path}')
-        os.remove(path)
+    path = output.request_path("gif")
 
     images = current_builder.images
     images[0].save(
         path, 
         save_all=True, 
-        append_images=images[1:])
+        append_images=images[1:],
+        **kwargs)
     print(f"[VIS] Saved {len(images)} images")
 
     if cleanup:

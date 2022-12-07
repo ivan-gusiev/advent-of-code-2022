@@ -1,6 +1,6 @@
 from aoc2022.advent import set_day_from_filename
 from aoc2022.gif import initialize_gif, request_frame, save_gif, GIF_FONT
-from aoc2022.util import Input, clean_lines
+from aoc2022.util import Input, Output
 from io import TextIOWrapper
 from typing import Set, Tuple
 
@@ -37,7 +37,7 @@ def get_message_start(chunk_size: int, line: str) -> int:
     
     draw_state(line, set(range(l + 1, r + 2)))
     draw_state(line, set(range(l + 1, r + 2)))
-    save_gif(f"chunk_{chunk_size}", loop=0, duration=25)
+    save_gif(Output.create(name=f"chunk_{chunk_size}"), loop=0, duration=25)
     return result
 
 def chunk_range(i: int, size: int) -> Tuple[int, int]:
