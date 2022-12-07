@@ -1,6 +1,6 @@
 from aoc2022.advent import set_day_from_filename
 from aoc2022.gif import is_drawing
-from aoc2022.util import Input, clean_lines
+from aoc2022.util import Input, Output, clean_lines
 from io import TextIOWrapper
 from typing import Tuple
 from PIL import Image
@@ -87,7 +87,7 @@ def solve_image(lines: list[str]):
             red = int(r.contains(x)) * 255
             green = int(l.contains(x)) * 255
             pixels[x, y] = (red, green, 100)
-    img.show()
+    img.save(Output.create(name="sections", extension="png").request_path())
 
 if __name__ == '__main__':
     main()
