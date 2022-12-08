@@ -12,7 +12,7 @@ def set_day_from_filename(filename: str):
     modulename = os.path.basename(filename).replace(".py", "")
     day = int(modulename.replace("day", ""))
 
-def day_from_filename(filename: str):
+def day_from_filename(filename: str) -> int:
     """
     Gets the day number from filename
 

@@ -1,7 +1,6 @@
 from aoc2022.advent import current_day, day_from_filename
-from dataclasses import dataclass
 from io import TextIOWrapper
-from typing import Generic, Optional, Tuple, TypeVar
+from typing import Optional, TypeVar
 
 
 def clean_lines(f: TextIOWrapper) -> list[str]:
@@ -24,7 +23,6 @@ def split_by_newline(lines: list[str]) -> list[list[str]]:
 
 
 T = TypeVar("T")
-
 
 def split_to_chunks(lines: list[T], n) -> list[list[T]]:
     result: list[list[T]] = []
@@ -98,53 +96,3 @@ class Output:
             subdir = f"day{current_day()}"
 
         return Output(name, subdir, extension)
-
-
-class Grid(Generic[T]):
-    cells: list[list[T]]
-    width: int
-    height: int
-
-    def __init__(self, width: int, height: int, zero: T):
-        self.width = width
-        self.height = height
-        self.cells = [[zero for _ in range(width)] for _ in range(height)]
-
-    def __getitem__(self, coord: Tuple[int, int]):
-        x, y = coord
-        return self.cells[y][x]
-
-    def __setitem__(self, coord: Tuple[int, int], value: T):
-        x, y = coord
-        self.cells[y][x] = value
-
-    def __repr__(self) -> str:
-        return "\n".join(
-            [
-                "".join([self[x, y] for x in range(self.width)])
-                for y in range(self.height)
-            ]
-        )
-
-    def row(self, y: int) -> list[T]:
-        return self.cells[y]
-
-    def col(self, x: int) -> list[T]:
-        return [self[x, y] for y in range(self.height)]
-
-    def all_cells(self) -> list[T]:
-        return [self[x, y] for x in range(self.width) for y in range(self.height)]
-
-    @classmethod
-    def from_lines(cls, lines: list[str]) -> "Grid[str]":
-        assert len(lines) > 0
-
-        height = len(lines)
-        width = len(lines[0])
-        grid = Grid(width, height, "")
-
-        for y, line in enumerate(lines):
-            for x, char in enumerate(line):
-                grid[x, y] = char
-
-        return grid
