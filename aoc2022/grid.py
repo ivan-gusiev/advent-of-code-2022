@@ -1,10 +1,10 @@
-
 from aoc2022.gif import request_frame
 from PIL import ImageDraw
 from typing import Any, Callable, Generator, Generic, Tuple, TypeVar
 
 T = TypeVar("T")
 U = TypeVar("U")
+
 
 class Grid(Generic[T]):
     cells: list[list[T]]
@@ -40,18 +40,18 @@ class Grid(Generic[T]):
 
     def all_cells(self) -> list[T]:
         return [value for _, _, value in self.enumerate_all_cells()]
-    
+
     def enumerate_all_cells(self) -> Generator[Tuple[int, int, T], None, None]:
         for y in range(self.height):
             for x in range(self.width):
                 yield (x, y, self[x, y])
 
-    def map(self, mapper: Callable[[T], U]) -> 'Grid[U]':
+    def map(self, mapper: Callable[[T], U]) -> "Grid[U]":
         new_grid = Grid[U](self.width, self.height, mapper(self[0, 0]))
         for x, y, value in self.enumerate_all_cells():
             new_grid[x, y] = mapper(value)
         return new_grid
-    
+
     def img_get_size(self, scale: int = 1) -> Tuple[int, int]:
         return self.width * scale, self.height * scale
 
@@ -59,7 +59,7 @@ class Grid(Generic[T]):
         frame_info = request_frame()
         if not frame_info:
             return
-        
+
         img = frame_info.image
         draw = ImageDraw.Draw(img)
         for x, y, val in self.enumerate_all_cells():

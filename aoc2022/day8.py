@@ -6,20 +6,24 @@ from dataclasses import dataclass
 from io import TextIOWrapper
 from typing import Any, Iterable, Tuple
 
+
 def main():
     set_day_from_filename(__file__)
     input = Input.for_advent()
     for file in [input.test_path, input.challenge_path]:
         print("input:", file)
-        with open(file, mode='r') as f:
+        with open(file, mode="r") as f:
             solve(f)
+
 
 def solve(f: TextIOWrapper):
     lines = clean_lines(f)
     solve_p1(lines)
     solve_p2(lines)
 
+
 SCALE = 8
+
 
 @dataclass
 class Cell:
@@ -30,6 +34,7 @@ class Cell:
     @classmethod
     def of_char(cls, char: str):
         return cls(int(char), False, 0)
+
 
 def solve_p1(lines: list[str]):
     grid = Grid.from_lines(lines).map(Cell.of_char)
@@ -53,6 +58,7 @@ def solve_p1(lines: list[str]):
     print("p1", len([c for c in grid.all_cells() if c.visible]))
     save_gif(Output.create(name="visibility"))
 
+
 def solve_p2(lines: list[str]):
     grid = Grid.from_lines(lines).map(Cell.of_char)
     initialize_gif(*grid.img_get_size(scale=SCALE))
@@ -63,12 +69,13 @@ def solve_p2(lines: list[str]):
         cell.score = u * d * l * r
 
     grid.img_draw(score_color_map, scale=SCALE)
-    scores = grid.map(lambda c : c.score)
+    scores = grid.map(lambda c: c.score)
 
     if scores.height < 10:
         print(scores)
     print("p2", max(scores.all_cells()))
     save_gif(Output.create(name="scores"))
+
 
 def process_visibility(cells: Iterable[Cell]):
     cur_height = -1
@@ -76,6 +83,7 @@ def process_visibility(cells: Iterable[Cell]):
         if c.value > cur_height:
             c.visible = True
             cur_height = c.value
+
 
 def calculate_view(cells: list[Cell], pos: int) -> Tuple[int, int]:
     cell_height = cells[pos].value
@@ -97,9 +105,10 @@ def calculate_view(cells: list[Cell], pos: int) -> Tuple[int, int]:
 
 
 class bcolors:
-    LITE = '\033[97m'
-    DARK = '\033[94m'
-    ENDC = '\033[0m'
+    LITE = "\033[97m"
+    DARK = "\033[94m"
+    ENDC = "\033[0m"
+
 
 def draw_grid_visibility(grid: Grid[Cell]):
     current_row = 0
@@ -115,15 +124,26 @@ def draw_grid_visibility(grid: Grid[Cell]):
             current_text += f"{bcolors.DARK}{cell.value}{bcolors.ENDC}"
     print(current_text)
 
+
 def visibility_color_map(x: int, y: int, z: Cell) -> Any:
-    intensity = z.value * 12 # 0-120
-    #return (intensity + 120, intensity + 120, intensity) if z.visible else (intensity // 4 * 3, (intensity + 120) // 4 * 3, intensity // 4 * 3)
-    return (intensity, intensity + 120, intensity) if z.visible else (intensity // 4 * 3 + 40, intensity // 4 * 3 + 70, intensity // 4 * 3 + 40)
+    intensity = z.value * 12  # 0-120
+    # return (intensity + 120, intensity + 120, intensity) if z.visible else (intensity // 4 * 3, (intensity + 120) // 4 * 3, intensity // 4 * 3)
+    return (
+        (intensity, intensity + 120, intensity)
+        if z.visible
+        else (intensity // 4 * 3 + 40, intensity // 4 * 3 + 70, intensity // 4 * 3 + 40)
+    )
+
 
 def score_color_map(x: int, y: int, z: Cell) -> Any:
     height_intensity = int((z.value / 10) * 64)
     score_intensity = int((z.score / 315495) * 192)
-    return (height_intensity + score_intensity, height_intensity + score_intensity, height_intensity // 2)
+    return (
+        height_intensity + score_intensity,
+        height_intensity + score_intensity,
+        height_intensity // 2,
+    )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

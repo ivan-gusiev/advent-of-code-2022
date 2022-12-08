@@ -24,3 +24,8 @@ run-all *args='':
 # sets up boilerplate for new day EXAMPLE just new day 7
 new day x:
     sh ./day.sh day{{ x }}
+
+# format code (Python and the justfile)
+fmt:
+    black .
+    @just --fmt --unstable

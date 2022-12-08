@@ -24,6 +24,7 @@ def split_by_newline(lines: list[str]) -> list[list[str]]:
 
 T = TypeVar("T")
 
+
 def split_to_chunks(lines: list[T], n) -> list[list[T]]:
     result: list[list[T]] = []
     for i in range(0, len(lines), n):
