@@ -10,6 +10,13 @@ import sys
 GIF_FONT = ImageFont.truetype("./res/font.ttf")
 
 
+class Colors:
+    BACKGROUND = (0, 0, 100)
+    HIGHLIGHT = (255, 0, 100)
+    MAIN_FILL = (0, 255, 100)
+    GREEN = (0, 255, 100)
+
+
 @dataclass
 class GifBuilder:
     id: int

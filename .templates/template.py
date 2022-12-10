@@ -1,5 +1,6 @@
 from aoc2022.advent import set_day_from_filename
 from aoc2022.util import Input, Output, clean_lines
+from dataclasses import dataclass
 from io import TextIOWrapper
 
 
