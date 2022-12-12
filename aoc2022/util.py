@@ -32,6 +32,14 @@ def split_to_chunks(lines: list[T], n) -> list[list[T]]:
     return result
 
 
+class Raw:
+    def __init__(self, val: str):
+        self.val = val
+
+    def __repr__(self) -> str:
+        return self.val
+
+
 class Input:
     challenge_path: str
     test_path: str

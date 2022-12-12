@@ -1,4 +1,5 @@
 from aoc2022.advent import set_day_from_filename
+from aoc2022.coords import Coords, COMMAND_CARD
 from aoc2022.gif import initialize_gif, request_frame, save_gif, Colors
 from aoc2022.util import Input, Output, clean_lines
 from dataclasses import dataclass
@@ -15,44 +16,10 @@ def main():
             solve(f)
 
 
-@dataclass(eq=True, frozen=True)
-class Coords:
-    x: int
-    y: int
-
-    def __add__(self, other: "Coords") -> "Coords":
-        return Coords(self.x + other.x, self.y + other.y)
-
-    def __sub__(self, other: "Coords") -> "Coords":
-        return Coords(self.x - other.x, self.y - other.y)
-
-    def __repr__(self) -> str:
-        return f"({self.x}, {self.y})"
-
-    def abs(self) -> "Coords":
-        return Coords(abs(self.x), abs(self.y))
-
-    def rect_normalize(self) -> "Coords":
-        abs = self.abs()
-        return Coords(self.x // (abs.x or 1), self.y // (abs.y or 1))
-
-    def rect_distance(self, other: "Coords") -> int:
-        diff = (other - self).abs()
-        return max(diff.x, diff.y)
-
-
 def solve(f: TextIOWrapper):
     lines = clean_lines(f)
     solve_p1(lines)
     solve_p2(lines)
-
-
-COMMAND_CARD: Dict[str, Coords] = {
-    "L": Coords(-1, 0),
-    "R": Coords(1, 0),
-    "U": Coords(0, -1),
-    "D": Coords(0, 1),
-}
 
 
 def solve_p1(lines: list[str]):

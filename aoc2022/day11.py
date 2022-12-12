@@ -14,6 +14,7 @@ SUMMARY = True
 
 sys.set_int_max_str_digits(100000)
 
+
 def main():
     set_day_from_filename(__file__)
     input = Input.for_advent()

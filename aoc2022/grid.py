@@ -1,3 +1,4 @@
+from aoc2022.coords import Coords
 from aoc2022.gif import request_frame
 from PIL import ImageDraw
 from typing import Any, Callable, Generator, Generic, Optional, Tuple, TypeVar
@@ -41,10 +42,25 @@ class Grid(Generic[T]):
     def all_cells(self) -> list[T]:
         return [value for _, _, value in self.enumerate_all_cells()]
 
+    def indexed(self, index: int) -> Tuple[int, int, T]:
+        y, x = divmod(index, self.width)
+        return (x, y, self[x, y])
+
+    def indexof(self, x: int, y: int) -> int:
+        return y * self.width + x
+
     def enumerate_all_cells(self) -> Generator[Tuple[int, int, T], None, None]:
         for y in range(self.height):
             for x in range(self.width):
                 yield (x, y, self[x, y])
+
+    def enumerate_neighbors(
+        self, x: int, y: int
+    ) -> Generator[Tuple[int, int, T], None, None]:
+        for yy in range(max(0, y - 1), min(self.height, y + 2)):
+            for xx in range(max(0, x - 1), min(self.width, x + 2)):
+                if (x, y) != (xx, yy):
+                    yield (xx, yy, self[xx, yy])
 
     def map(self, mapper: Callable[[T], U]) -> "Grid[U]":
         new_grid = Grid[U](self.width, self.height, mapper(self[0, 0]))
