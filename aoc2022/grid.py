@@ -1,6 +1,6 @@
 from aoc2022.gif import request_frame
 from PIL import ImageDraw
-from typing import Any, Callable, Generator, Generic, Tuple, TypeVar
+from typing import Any, Callable, Generator, Generic, Optional, Tuple, TypeVar
 
 T = TypeVar("T")
 U = TypeVar("U")
@@ -55,16 +55,19 @@ class Grid(Generic[T]):
     def img_get_size(self, scale: int = 1) -> Tuple[int, int]:
         return self.width * scale, self.height * scale
 
-    def img_draw(self, color_map: Callable[[int, int, T], Any], scale: int = 1):
+    def img_draw(
+        self, color_map: Callable[[int, int, T], Any], scale: int = 1
+    ) -> Optional[ImageDraw.ImageDraw]:
         frame_info = request_frame()
         if not frame_info:
-            return
+            return None
 
         img = frame_info.image
         draw = ImageDraw.Draw(img)
         for x, y, val in self.enumerate_all_cells():
             coords = (x * scale, y * scale), (x * scale + scale, y * scale + scale)
             draw.rectangle(coords, fill=color_map(x, y, val))
+        return draw
 
     @classmethod
     def from_lines(cls, lines: list[str]) -> "Grid[str]":
