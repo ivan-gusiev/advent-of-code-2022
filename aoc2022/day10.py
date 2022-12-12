@@ -6,7 +6,6 @@ from dataclasses import dataclass
 from functools import reduce
 from io import TextIOWrapper
 from operator import add
-from PIL import ImageDraw
 from typing import Tuple
 
 WIDTH: int = 40
