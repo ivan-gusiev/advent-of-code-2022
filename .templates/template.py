@@ -1,7 +1,6 @@
 from aoc2022.advent import set_day_from_filename
 from aoc2022.util import Input, Output, clean_lines
 from dataclasses import dataclass
-from io import TextIOWrapper
 
 
 def main():
@@ -10,13 +9,9 @@ def main():
     for file in [input.test_path, input.challenge_path]:
         print("input:", file)
         with open(file, mode="r") as f:
-            solve(f)
-
-
-def solve(f: TextIOWrapper):
-    lines = clean_lines(f)
-    solve_p1(lines)
-    solve_p2(lines)
+            lines = clean_lines(f)
+            solve_p1(lines)
+            solve_p2(lines)
 
 
 def solve_p1(lines: list[str]):

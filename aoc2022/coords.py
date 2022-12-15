@@ -31,6 +31,11 @@ class Coords:
         diff = (other - self).abs()
         return max(diff.x, diff.y)
 
+    @classmethod
+    def parse(cls, text: str) -> "Coords":
+        xs, ys = text.split(",")
+        return Coords(int(xs), int(ys))
+
 
 COMMAND_CARD: Dict[str, Coords] = {
     "L": Coords(-1, 0),
