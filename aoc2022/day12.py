@@ -1,9 +1,8 @@
 from aoc2022.advent import set_day_from_filename
 from aoc2022.coords import Coords, ARROW
 from aoc2022.grid import Grid
-from aoc2022.util import Input, Output, Raw, clean_lines
+from aoc2022.util import Input, Raw, clean_lines
 from dataclasses import dataclass
-from functools import partial
 import igraph as ig
 from io import TextIOWrapper
 
